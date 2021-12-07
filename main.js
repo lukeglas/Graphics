@@ -14,7 +14,7 @@ document.body.appendChild(renderer.
 	domElement)
 
 // create scene
-const scene = new THREE.Scene() 
+const scene = new THREE.Scene()
 
 //create sphere
 

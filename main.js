@@ -1,15 +1,10 @@
 import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 import { GUI } from 'dat.gui'
-<<<<<<< HEAD
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
 
 var scene, camera, renderer, sphere, sphereCamera;
 var floor, ambientLight, light, stats, light2;
-
-
-
-
 
 var keyboard = {};
 var person = { height:1.8, speed:0.2, turnSpeed:Math.PI*0.02 };
@@ -17,10 +12,7 @@ var person = { height:1.8, speed:0.2, turnSpeed:Math.PI*0.02 };
 function init(){
 	//create scene
 	scene = new THREE.Scene();
-
 	stats = Stats()
-
-	
 
 	//create Camera
 	const fov = 90
@@ -28,24 +20,17 @@ function init(){
 	const near = 0.1
 	const far = 1000
 	camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
 	camera.position.set(0, person.height * 3, -15);
-
-
-
 	camera.lookAt(new THREE.Vector3(0,person.height,0));
 
 	// create sphere
 	sphere = new THREE.Mesh(new THREE.
 		SphereGeometry(1, 64, 64),  new THREE.
-
 		MeshBasicMaterial({color:0xfffff, envMap: camera.renderTarget})
 	) 
 	sphere.position.y += 1.5;
 	sphere.position.x += 0;	
 	sphere.position.z -= 5;	
-
-
 	sphere.receiveShadow = true;
 	sphere.castShadow = true;
 	scene.add(sphere) 
@@ -53,7 +38,6 @@ function init(){
 	//create planes
 	floor = new THREE.Mesh(
 		new THREE.PlaneGeometry(20,20, 10,10),
-
 		new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './img/floor.jpg' ), side:THREE.DoubleSide})
 		//new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
 	);
@@ -122,31 +106,20 @@ function init(){
 
 	
 	//add skybox
-	let materialArray = [];
-	let texture_ft = new THREE.TextureLoader().load('./field-skyboxes/Footballfield/negx.jpg')
-	let texture_bk = new THREE.TextureLoader().load('./field-skyboxes/Footballfield/negy.jpg')
-	let texture_up = new THREE.TextureLoader().load('./field-skyboxes/Footballfield/negz.jpg')
-	let texture_dn = new THREE.TextureLoader().load('./field-skyboxes/Footballfield/posx.jpg')
-	let texture_rt = new THREE.TextureLoader().load('./field-skyboxes/Footballfield/posy.jpg')
-	let texture_lt = new THREE.TextureLoader().load('./field-skyboxes/Footballfield/posz.jpg')
-	
-	materialArray.push(new THREE.MeshBasicMaterial({map:texture_ft, side: THREE.DoubleSide}));
-	materialArray.push(new THREE.MeshBasicMaterial({map:texture_bk, side: THREE.DoubleSide}));
-	materialArray.push(new THREE.MeshBasicMaterial({map:texture_up, side: THREE.DoubleSide}));
-	materialArray.push(new THREE.MeshBasicMaterial({map:texture_dn, side: THREE.DoubleSide}));
-	materialArray.push(new THREE.MeshBasicMaterial({map:texture_rt, side: THREE.DoubleSide}));
-	materialArray.push(new THREE.MeshBasicMaterial({map:texture_lt, side: THREE.DoubleSide}));
-
 	let loader = new THREE.CubeTextureLoader();
-	scene.background = loader.load(materialArray);
-	let skyboxGeo = new THREE.BoxGeometry(10000, 10000, 10000);
-	var cubeMaterial = new THREE.MeshFaceMaterial(materialArray);
-	let skybox = new THREE.Mesh(skyboxGeo, materialArray);
-	for (let i = 0; i < 6; i++){
-  		materialArray[i].side = THREE.BackSide;
-	}
-	skybox.position.set(-3,6,-3);
-	scene.add(skybox);
+
+	let texture = loader.load([
+	'./field-skyboxes/Footballfield/negz.jpg',
+	'./field-skyboxes/Footballfield/posz.jpg',
+	'./field-skyboxes/Footballfield/posy.jpg',
+	'./field-skyboxes/Footballfield/negy.jpg',
+	'./field-skyboxes/Footballfield/posx.jpg',
+	'./field-skyboxes/Footballfield/negx.jpg'
+	]);
+	
+	  scene.background = texture;
+	
+
 
 	//create lights
 	ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
@@ -189,18 +162,7 @@ function animate(){
 
 	stats.update()
 	
-	// if(sphere.position.z <= -5){
-	// 	sphere.position.x += 0.1;
-	// 	if(sphere.position.x <= 5){
-	// 	sphere.position.z += 0.1;
-	// 	 	if(sphere.position.z >= 5){
-	//  		sphere.position.x -= 0.1;
-	// 		 	if(sphere.position.x >= -5){
-	//  			sphere.position.z -= 0.1;
-	//  			}
-	//  		}
-	// 	}	
-	// }
+	
 	
 	
 	// Keyboard movement inputs
@@ -248,8 +210,6 @@ function keyUp(event){
 	keyboard[event.keyCode] = false;
 }
 
-
-		
 window.addEventListener('keydown', keyDown);
 window.addEventListener('keyup', keyUp);
 

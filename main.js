@@ -1,10 +1,15 @@
 import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 import { GUI } from 'dat.gui'
+<<<<<<< HEAD
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
 
 var scene, camera, renderer, sphere, sphereCamera;
 var floor, ambientLight, light, stats, light2;
+
+
+
+
 
 var keyboard = {};
 var person = { height:1.8, speed:0.2, turnSpeed:Math.PI*0.02 };
@@ -12,24 +17,35 @@ var person = { height:1.8, speed:0.2, turnSpeed:Math.PI*0.02 };
 function init(){
 	//create scene
 	scene = new THREE.Scene();
+
 	stats = Stats()
+
+	
+
 	//create Camera
 	const fov = 90
 	const aspect = innerWidth / innerHeight
 	const near = 0.1
 	const far = 1000
 	camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+
 	camera.position.set(0, person.height * 3, -15);
+
+
+
 	camera.lookAt(new THREE.Vector3(0,person.height,0));
 
 	// create sphere
 	sphere = new THREE.Mesh(new THREE.
 		SphereGeometry(1, 64, 64),  new THREE.
+
 		MeshBasicMaterial({color:0xfffff, envMap: camera.renderTarget})
 	) 
 	sphere.position.y += 1.5;
 	sphere.position.x += 0;	
 	sphere.position.z -= 5;	
+
+
 	sphere.receiveShadow = true;
 	sphere.castShadow = true;
 	scene.add(sphere) 
@@ -37,6 +53,7 @@ function init(){
 	//create planes
 	floor = new THREE.Mesh(
 		new THREE.PlaneGeometry(20,20, 10,10),
+
 		new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './img/floor.jpg' ), side:THREE.DoubleSide})
 		//new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
 	);
@@ -231,6 +248,8 @@ function keyUp(event){
 	keyboard[event.keyCode] = false;
 }
 
+
+		
 window.addEventListener('keydown', keyDown);
 window.addEventListener('keyup', keyUp);
 

@@ -3,7 +3,7 @@ import { GUI } from 'dat.gui'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
 
-var scene, camera, renderer, sphere, sphereCamera;
+var scene, camera, renderer, sphere, sphere2, sphereCamera;
 var floor, ambientLight, light, stats, light2;
 var sphereGeometry1, sphereMaterial1, sphereMesh1;
 var pivotPoint;
@@ -34,6 +34,17 @@ function init(){
 	sphere.receiveShadow = true;
 	sphere.castShadow = true;
 	scene.add(sphere) 
+
+	// create sphere
+	sphere2 = new THREE.Mesh(new THREE.
+		SphereGeometry(0.2, 64, 64),  new THREE.
+		MeshPhysicalMaterial({map: new THREE.TextureLoader().load('./img/glass.jpg'), color: 0xff0000
+		})
+	) 
+
+	sphere2.receiveShadow = true;
+	sphere2.castShadow = true;
+	scene.add(sphere2) 
 
 //#region 
 	//create planes
@@ -168,11 +179,7 @@ function init(){
 function animate(){ 
 	renderer.render(scene, camera);
 	requestAnimationFrame(animate);
-
-	var time = Date.now() * 0.0005;
-	sphere.position.x = Math.cos( time * 10 ) * 4;
-	sphere.position.y = 1;
-	sphere.position.z = Math.cos( time * 8 ) * 4;
+	render();
 
 	stats.update()
 
@@ -227,3 +234,12 @@ window.addEventListener('keyup', keyUp);
 
 window.onload = init;
 //#endregion
+
+function render () 
+{
+	var time = Date.now() * 0.0005;
+	sphere.position.x = Math.cos( time * 10 ) * 4;
+	sphere.position.y = 1;
+	sphere.position.z = Math.cos( time * 8 ) * 4;
+
+}

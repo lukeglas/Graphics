@@ -33,6 +33,7 @@ function init(){
 
 	sphere.receiveShadow = true;
 	sphere.castShadow = true;
+	sphere.position.set(7, 2, 0);
 	scene.add(sphere) 
 
 	// create sphere
@@ -44,7 +45,13 @@ function init(){
 
 	sphere2.receiveShadow = true;
 	sphere2.castShadow = true;
+	sphere2.position.set(0, -1, 0)
 	scene.add(sphere2) 
+
+	pivotPoint = new THREE.Object3D();
+	sphere2.add(pivotPoint);
+	pivotPoint.add(sphere);
+
 
 //#region 
 	//create planes
@@ -172,7 +179,6 @@ function init(){
 	resFolder.open()
 
 //#endregion
-
 	animate();
 }
 
@@ -237,9 +243,5 @@ window.onload = init;
 
 function render () 
 {
-	var time = Date.now() * 0.0005;
-	sphere.position.x = Math.cos( time * 10 ) * 4;
-	sphere.position.y = 1;
-	sphere.position.z = Math.cos( time * 8 ) * 4;
-
+	pivotPoint.rotation.y += 0.1;
 }

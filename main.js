@@ -3,8 +3,10 @@ import { GUI } from 'dat.gui'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
 
-var scene, camera, renderer, sphere, sphereCamera;
+var scene, camera, renderer, sphere, sphere2, sphereCamera;
 var floor, ambientLight, light, stats, light2;
+var sphereGeometry1, sphereMaterial1, sphereMesh1;
+var pivotPoint;
 
 var keyboard = {};
 var person = { height:1.8, speed:0.2, turnSpeed:Math.PI*0.02 };
@@ -25,15 +27,33 @@ function init(){
 	// create sphere
 	sphere = new THREE.Mesh(new THREE.
 		SphereGeometry(1, 64, 64),  new THREE.
-		MeshBasicMaterial({color:0xfffff, envMap: camera.renderTarget})
+		MeshPhysicalMaterial({map: new THREE.TextureLoader().load('./img/glass.jpg'), color: 0xff0000
+		})
 	) 
-	sphere.position.y += 1.5;
-	sphere.position.x += 0;	
-	sphere.position.z -= 5;	
+
 	sphere.receiveShadow = true;
 	sphere.castShadow = true;
+	sphere.position.set(7, 2, 0);
 	scene.add(sphere) 
 
+	// create sphere
+	sphere2 = new THREE.Mesh(new THREE.
+		SphereGeometry(0.2, 64, 64),  new THREE.
+		MeshPhysicalMaterial({map: new THREE.TextureLoader().load('./img/glass.jpg'), color: 0xff0000
+		})
+	) 
+
+	sphere2.receiveShadow = true;
+	sphere2.castShadow = true;
+	sphere2.position.set(0, -1, 0)
+	scene.add(sphere2) 
+
+	pivotPoint = new THREE.Object3D();
+	sphere2.add(pivotPoint);
+	pivotPoint.add(sphere);
+
+
+//#region 
 	//create planes
 	floor = new THREE.Mesh(
 		new THREE.PlaneGeometry(20,20, 10,10),
@@ -103,7 +123,6 @@ function init(){
     //     scene.add(object.scene);
     // });
 
-	
 	//add skybox
 	let materialArray = [];
 	let texture_ft = new THREE.TextureLoader().load('./field-skyboxes/Footballfield/negx.jpg')
@@ -145,8 +164,6 @@ function init(){
 
 	scene.add(light);	
 
-
-	
 	//create renderer
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(innerWidth, innerHeight);
@@ -161,31 +178,18 @@ function init(){
 	resFolder.add(camera, 'aspect', (innerWidth / 2) + (innerWidth /2) , innerWidth  / innerWidth )
 	resFolder.open()
 
-
-
+//#endregion
 	animate();
 }
 
-function animate(){
+function animate(){ 
 	renderer.render(scene, camera);
 	requestAnimationFrame(animate);
+	render();
 
 	stats.update()
-	
-	// if(sphere.position.z <= -5){
-	// 	sphere.position.x += 0.1;
-	// 	if(sphere.position.x <= 5){
-	// 	sphere.position.z += 0.1;
-	// 	 	if(sphere.position.z >= 5){
-	//  		sphere.position.x -= 0.1;
-	// 		 	if(sphere.position.x >= -5){
-	//  			sphere.position.z -= 0.1;
-	//  			}
-	//  		}
-	// 	}	
-	// }
-	
-	
+
+//#region 
 	// Keyboard movement inputs
 	if(keyboard[87]){ // W key
 		
@@ -235,3 +239,9 @@ window.addEventListener('keydown', keyDown);
 window.addEventListener('keyup', keyUp);
 
 window.onload = init;
+//#endregion
+
+function render () 
+{
+	pivotPoint.rotation.y += 0.1;
+}

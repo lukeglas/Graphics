@@ -20,20 +20,22 @@ function init(){
 	const near = 0.1
 	const far = 1000
 	camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-	camera.position.set(0, person.height * 3, -15);
-	camera.lookAt(new THREE.Vector3(0,person.height,0));
+	camera.position.set(0, person.height *2.5 , -7);
+	camera.lookAt(new THREE.Vector3(0,person.height ,0));
 
+	
 	// create sphere
-	sphere = new THREE.Mesh(new THREE.
-		SphereGeometry(1, 64, 64),  new THREE.
-		MeshBasicMaterial({color:0xfffff, envMap: camera.renderTarget})
-	) 
-	sphere.position.y += 1.5;
-	sphere.position.x += 0;	
-	sphere.position.z -= 5;	
-	sphere.receiveShadow = true;
-	sphere.castShadow = true;
-	scene.add(sphere) 
+	
+	let sphereMaterial = new THREE.MeshBasicMaterial( );
+	let sphereGeo =  new THREE.SphereGeometry(1, 64, 64);
+	let mirrorSphere = new THREE.Mesh(sphereGeo, sphereMaterial);
+	mirrorSphere.position.set(0, 2, 0);
+	mirrorSphere.receiveShadow = true;
+	mirrorSphere.castShadow = false;
+	scene.add(mirrorSphere);
+	
+	
+	
 
 	//create planes
 	floor = new THREE.Mesh(
@@ -65,15 +67,26 @@ function init(){
 	leftwall.receiveShadow = true;
 	scene.add(leftwall);
 	
-	const rightwall = new THREE.Mesh(
+	const backwall = new THREE.Mesh(
 		new THREE.PlaneGeometry(20,20, 10,10),
 		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
 	);
-	rightwall.rotation.y -= Math.PI/2; 
-	rightwall.position.x = 10
-	rightwall.position.y = 10
-	rightwall.receiveShadow = true;
-	scene.add(rightwall);
+	 backwall.rotation.y -= Math.PI/2; 
+	 backwall.position.x = 10
+	 backwall.position.y = 10
+	 backwall.receiveShadow = true;
+	scene.add( backwall);
+
+	const door = new THREE.Mesh(
+	new THREE.PlaneGeometry(20,20, 10,10),
+	new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	 door.rotation.y -= Math.PI; 
+	 door.position.x = 0
+	 door.position.y = 10
+	 door.position.z = -10
+	 door.receiveShadow = true;
+	scene.add(door);
 
 	const window = new THREE.Mesh(
 		new THREE.PlaneGeometry(7.5,7.5, 10,10),
@@ -95,14 +108,6 @@ function init(){
 	windowwall.receiveShadow = true;
 	scene.add(windowwall);
 
-
-	// var manager = new THREE.LoadingManager();	
-    // var objLoader = new THREE.ObjectLoader(manager);
-    
-    // objLoader.load('./assets/table.obj', function (object) {
-	// 	object.position.x = 2
-    //     scene.add(object.scene);
-    // });
 
 	
 	//add skybox
@@ -157,7 +162,8 @@ function init(){
 }
 
 function animate(){
-	renderer.render(scene, camera);
+	renderer.render(scene,camera);
+  //	sphereCamera.updateCubeMap( renderer, scene );
 	requestAnimationFrame(animate);
 
 	stats.update()

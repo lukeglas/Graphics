@@ -25,12 +25,11 @@ function init() {
   );
   camera.position.set(0, 0.02, 0);
   camera.position.z = 1;
-  var light = new THREE.DirectionalLight(0xffffff, 1);
-  var ambient = new THREE.AmbientLight(0xffffff);
+  var light = new THREE.DirectionalLight(0xffffff, 5);
+  var ambient = new THREE.AmbientLight(0x404040);
   curScene.add(ambient);
   curScene.add(light);
-
-  matgine.instances.set("sun", light);
+  //matgine.instances.set("sun", light);
 
   //create renderer
   renderer = new THREE.WebGLRenderer();
@@ -42,6 +41,12 @@ function init() {
 
 function animate() {
   var deltaTime = clock.getDelta();
+  if(matgine.instances.has("avocado")) // dit is nodig want anders probeert hij het te doen voordat het object is ingeladen!
+  {
+    matgine.instances.get("avocado").rotation.y += 0.1;
+  }
+
+
   UpdateCamera(deltaTime);
   renderer.render(curScene, camera);
   requestAnimationFrame(animate);

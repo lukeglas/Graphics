@@ -1,4 +1,4 @@
-import { GLTFLoader } from "./GLTFLoader.js";
+import { GLTFLoader } from "./threejs_imports/GLTFLoader.js";
 
 const models = new Map();
 const textures = new Map();

@@ -29,6 +29,21 @@ function init() {
   var ambient = new THREE.AmbientLight(0x404040);
   curScene.add(ambient);
   curScene.add(light);
+
+  var sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(1,64,64), 
+    //new THREE.BasicMaterial({color: 0xff0000})
+    new THREE.MeshPhysicalMaterial({map: new THREE.TextureLoader().load(`./img/earth.jpg`),
+    color: 0x00ff00
+  })
+
+  );
+  sphere.recieveShadow = true;
+  sphere.castShadow = true;
+  sphere.position.set(0,1,0);
+  curScene.add(sphere);
+
+
   //matgine.instances.set("sun", light);
 
   //create renderer
@@ -104,7 +119,6 @@ function UpdateCamera(deltaTime) {
 function keyDown(event) {
   keyboard[event.keyCode] = true;
 }
-
 function keyUp(event) {
   keyboard[event.keyCode] = false;
 }

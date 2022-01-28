@@ -8,6 +8,7 @@ const textureLoader = new THREE.TextureLoader();
 const jsonLoader = new THREE.ObjectLoader();
 
 export const instances = new Map();
+
 export async function LoadModel(path, name) {
   if (models.has(name)) {
     throw new Error("Model already loaded");

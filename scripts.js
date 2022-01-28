@@ -31,6 +31,13 @@ function init() {
   curScene.add(light);
   //matgine.instances.set("sun", light);
 
+
+
+
+
+
+  
+
   //create renderer
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);

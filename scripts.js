@@ -6,6 +6,10 @@ var clock;
 var cubes = [];
 var keyboard = {};
 var speed = 0.2;
+var scene, camera, renderer, sphere, sphere2, sphereCamera;
+var floor, ambientLight, light, stats, light2;
+var sphereGeometry1, sphereMaterial1, sphereMesh1;
+var pivotPoint;
 
 init();
 loadModels();
@@ -18,20 +22,21 @@ function init() {
   curScene = matgine.GetScene("start");
   //create camera
   camera = new THREE.PerspectiveCamera(
-    50,
+    100,
     window.innerWidth / window.innerHeight,
     0.01,
-    1000
-  );
-  camera.position.set(0, 0.02, 0);
-  camera.position.z = 1;
+    100
+  ); 
+  camera.position.set(0, 1, 2);
   var light = new THREE.DirectionalLight(0xffffff, 5);
   var ambient = new THREE.AmbientLight(0x404040);
   curScene.add(ambient);
   curScene.add(light);
 
+
+  // Circulating Sphere
   var sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(1,64,64), 
+    new THREE.SphereGeometry(1, 64, 64), 
     //new THREE.BasicMaterial({color: 0xff0000})
     new THREE.MeshPhysicalMaterial({map: new THREE.TextureLoader().load(`./img/earth.jpg`),
     color: 0x00ff00
@@ -40,11 +45,98 @@ function init() {
   );
   sphere.recieveShadow = true;
   sphere.castShadow = true;
-  sphere.position.set(0,1,0);
+  sphere.position.set(7,2,0);
   curScene.add(sphere);
 
+  // Pivot Sphere (NIET VERWIJDEREN, HEEFT EEN FUNCTIEE)
+  var sphere2 = new THREE.Mesh(
+    new THREE.SphereGeometry(0.2, 64, 64), 
+    //new THREE.BasicMaterial({color: 0xff0000})
+    new THREE.MeshPhysicalMaterial({map: new THREE.TextureLoader().load(`./img/earth.jpg`),
+    color: 0xff0000
+  })
+
+  );
+  sphere2.recieveShadow = true;
+  sphere2.castShadow = true;
+  sphere2.position.set(0,-1,0);
+  curScene.add(sphere2);
+
+  //Create Pivotpoint
+	pivotPoint = new THREE.Object3D();
+	sphere2.add(pivotPoint);
+	pivotPoint.add(sphere);
 
   //matgine.instances.set("sun", light);
+
+
+  //create planes
+	floor = new THREE.Mesh(
+		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './img/floor.jpg' ), side:THREE.DoubleSide})
+		//new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	floor.rotation.x -= Math.PI / 2; 
+	floor.receiveShadow = true;
+	floor.castShadow = false;
+	curScene.add(floor);
+
+  // Ceiling
+	const ceiling = new THREE.Mesh(
+		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader().load( './img/ceiling.jpg' ), side:THREE.DoubleSide})
+	);
+	ceiling.rotation.x -= Math.PI / 2; 
+	ceiling.position.y = 10
+	ceiling.receiveShadow = true;
+	curScene.add(ceiling);
+
+
+  // Backwall
+	const leftwall = new THREE.Mesh(
+		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	leftwall.rotation.x -= Math.PI; 
+	leftwall.position.z = 10
+	leftwall.position.y = 10
+	leftwall.receiveShadow = true;
+	curScene.add(leftwall);
+	
+  // Rightwall
+	const rightwall = new THREE.Mesh(
+		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	rightwall.rotation.y -= Math.PI/2; 
+	rightwall.position.x = 10
+	rightwall.position.y = 10
+	rightwall.receiveShadow = true;
+	curScene.add(rightwall);
+
+  // CenterWall
+	const centerwall = new THREE.Mesh(
+		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	centerwall.rotation.z -= Math.PI/2; 
+	centerwall.position.z = -10
+	centerwall.position.y = 10
+	centerwall.receiveShadow = true;
+	curScene.add(centerwall);
+
+  //LeftWall
+	const windowwall = new THREE.Mesh(
+		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	windowwall.rotation.y -= Math.PI/2; 
+	windowwall.position.x = -10
+	windowwall.position.y = 10
+	windowwall.receiveShadow = true;
+	curScene.add(windowwall);
+
+
 
   //create renderer
   renderer = new THREE.WebGLRenderer();
@@ -52,6 +144,7 @@ function init() {
   document.body.appendChild(renderer.domElement);
   window.addEventListener("keydown", keyDown);
   window.addEventListener("keyup", keyUp);
+  animate();
 }
 
 function animate() {
@@ -65,6 +158,7 @@ function animate() {
   UpdateCamera(deltaTime);
   renderer.render(curScene, camera);
   requestAnimationFrame(animate);
+  render();
 }
 async function loadModels() {
   //put all the models to be loaded in this function to keep it clean.
@@ -121,4 +215,9 @@ function keyDown(event) {
 }
 function keyUp(event) {
   keyboard[event.keyCode] = false;
+}
+
+function render () 
+{
+	pivotPoint.rotation.y += 0.05;
 }

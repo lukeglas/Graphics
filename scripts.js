@@ -1,9 +1,6 @@
 import * as matgine from "./matgine.js";
-var curScene;
-var camera;
-var renderer;
-var clock;
-var cubes = [];
+var curscene, camera, renderer, clock, cubes = [];
+var floor, ceiling, leftwall, rightwall, backwall, door;
 var keyboard = {};
 var speed = 0.2;
 
@@ -15,7 +12,7 @@ function init() {
   clock = new THREE.Clock();
   clock.start();
   matgine.LoadScene("scene.json", "start");
-  curScene = matgine.GetScene("start");
+  curscene = matgine.GetScene("start");
   //create camera
   camera = new THREE.PerspectiveCamera(
     50,
@@ -27,11 +24,90 @@ function init() {
   camera.position.z = 1;
   var light = new THREE.DirectionalLight(0xffffff, 5);
   var ambient = new THREE.AmbientLight(0x404040);
-  curScene.add(ambient);
-  curScene.add(light);
+  curscene.add(ambient);
+  curscene.add(light);
   //matgine.instances.set("sun", light);
 
+//create planes
+	floor = new THREE.Mesh(
+		new THREE.PlaneGeometry(1,1, 1,1),
+		new THREE.MeshBasicMaterial( { color:0xffffff, side:THREE.DoubleSide})
+		
+	);
+	floor.rotation.x -= Math.PI / 2; 
+  
+	floor.receiveShadow = true;
+	floor.castShadow = false;
+	curscene.add(floor);
 
+	ceiling = new THREE.Mesh(
+		new THREE.PlaneGeometry(1,1, 1,1),
+		new THREE.MeshBasicMaterial( {color:0xffffff, side:THREE.DoubleSide})
+	);
+	ceiling.rotation.x -= Math.PI / 2; 
+	ceiling.position.y = 1
+	ceiling.receiveShadow = true;
+	curscene.add(ceiling);
+
+// door
+	// door = new THREE.Mesh(
+	// 	new THREE.PlaneGeometry(1,1, 1,1),
+	// 	new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	// );
+	// door.position.z = 1
+	// door.receiveShadow = true;
+	// curscene.add(door);
+	
+   // rightwall
+	 rightwall = new THREE.Mesh(
+		new THREE.PlaneGeometry(1,1, 1,1),
+		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	 rightwall.rotation.y -= Math.PI/2; 
+	 rightwall.position.x = 0.5
+	 rightwall.position.y = 0.5
+	 rightwall.receiveShadow = true;
+	curscene.add( rightwall);
+
+// backwall
+	backwall = new THREE.Mesh(
+	new THREE.PlaneGeometry(1,1, 1,1),
+	new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	 backwall.rotation.y -= Math.PI; 
+	 backwall.position.x = 0
+	 backwall.position.y = 0.5
+	 backwall.position.z = -0.5
+	 backwall.receiveShadow = true;
+	curscene.add(backwall);
+
+
+ // leftwall
+	leftwall = new THREE.Mesh(
+		new THREE.PlaneGeometry(1,1, 1,1),
+		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	leftwall.rotation.y -= Math.PI/2; 
+	leftwall.position.x = -0.5
+	leftwall.position.y = 0.5
+	leftwall.receiveShadow = true;
+	curscene.add(leftwall);
+
+
+	
+	//add skybox
+	// let loader = new THREE.CubeTextureLoader();
+
+	// let texture = loader.load([
+	// './field-skyboxes/Footballfield/negz.jpg',
+	// './field-skyboxes/Footballfield/posz.jpg',
+	// './field-skyboxes/Footballfield/posy.jpg',
+	// './field-skyboxes/Footballfield/negy.jpg',
+	// './field-skyboxes/Footballfield/posx.jpg',
+	// './field-skyboxes/Footballfield/negx.jpg'
+	// ]);
+	
+	//   curscene.background = texture;
 
 
 
@@ -55,7 +131,7 @@ function animate() {
 
 
   UpdateCamera(deltaTime);
-  renderer.render(curScene, camera);
+  renderer.render(curscene, camera);
   requestAnimationFrame(animate);
 }
 async function loadModels() {

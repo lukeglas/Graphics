@@ -179,12 +179,12 @@ const rightwallright = new THREE.Mesh(
 	let loader = new THREE.CubeTextureLoader();
 
 	let texture = loader.load([
-    './field-skyboxes/Footballfield/posx.jpg',
-	'./field-skyboxes/Footballfield/negx.jpg',
-	'./field-skyboxes/Footballfield/posy.jpg',
-	'./field-skyboxes/Footballfield/negy.jpg',
-	'./field-skyboxes/Footballfield/posz.jpg',
-  './field-skyboxes/Footballfield/negz.jpg'
+  './skybox/posx.jpg',
+	'./skybox/negx.jpg',
+	'./skybox/posy.jpg',
+	'./skybox/negy.jpg',
+	'./skybox/posz.jpg',
+  './skybox/negz.jpg'
 	
 	]);
 	
@@ -206,12 +206,9 @@ const rightwallright = new THREE.Mesh(
 
 function animate() {
   var deltaTime = clock.getDelta();
-
-
   UpdateCamera(deltaTime);
   renderer.render(curScene, camera);
   requestAnimationFrame(animate);
-
   render();
 }
 

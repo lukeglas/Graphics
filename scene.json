@@ -24,6 +24,7 @@
         "path": "/models/earth.glb",
         "name": "earth"
       },
+
       {
         "path": "/models/fridge/scene.gltf",
         "name": "fridge"
@@ -39,10 +40,24 @@
       {
         "path": "/models/Mirror/scene.gltf",
         "name": "mirror"
+
+      {"path": "/models/Window/scene.gltf",
+        "name": "window"
+
+      },
+      {
+        "path": "/models/Door/scene.gltf",
+        "name": "door"
+      },
+      {
+        "path": "/models/Lamp/scene.gltf",
+        "name": "lamp"
+
       }
     ],
     "Scene": [
       {
+
         "name": "car",
         "model": "car",
         "position": {
@@ -100,6 +115,8 @@
         }
       },
       {
+
+
         "name": "earth",
         "model": "earth",
         "position": {
@@ -122,9 +139,15 @@
         "name": "shiba",
         "model": "shiba",
         "position": {
+
           "x": -0.2,
           "y": 2.05,
           "z": -1.8
+
+          "x": 0.27,
+          "y": 0.95,
+          "z": 0
+
         },
         "rotation": { 
           "x": 0,
@@ -214,6 +237,7 @@
         }
       },
       {
+
         "name": "mirror",
         "model": "mirror",
         "position": {
@@ -230,6 +254,62 @@
           "x": 1.5,
           "y": 1.5,
           "z": -1.5
+
+        "name": "window",
+        "model": "window",
+        "position": {
+          "x": 2.2,
+          "y": 1,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": -0.53,
+          "z": 0
+        },
+        "scale": {
+          "x": 0.045,
+          "y": 0.045,
+          "z": 0.045
+        }
+      },
+      {
+        "name": "door",
+        "model": "door",
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 2.5
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1.25,
+          "y": 1.25,
+          "z": 1.25
+        }
+      },
+      {
+        "name": "lamp",
+        "model": "lamp",
+        "position": {
+          "x": 0,
+          "y": 1.9,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+
         }
       }
     ]

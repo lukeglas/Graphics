@@ -56,6 +56,10 @@ export function InstantiateModel(scene, name) {
   if (models.has(name)) {
     var geo = models.get(name);
     var nModel = geo.scene.clone();
+
+
+    nModel.castShadow = true;
+
     scene.add(nModel);
     return nModel;
   } else {

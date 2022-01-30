@@ -5,7 +5,11 @@ var renderer;
 var clock;
 var cubes = [];
 var keyboard = {};
-var speed = 0.2;
+var speed = 0.5;
+var scene, camera, renderer, sphere, sphere2, sphereCamera;
+var floor, ambientLight, light, stats, light2;
+var sphereGeometry1, sphereMaterial1, sphereMesh1;
+var pivotPoint;
 
 init();
 loadModels();
@@ -15,28 +19,62 @@ function init() {
   clock = new THREE.Clock();
   clock.start();
   matgine.LoadScene("scene.json", "start");
+
+
+
   curScene = matgine.GetScene("start");
   //create camera
   camera = new THREE.PerspectiveCamera(
-    50,
+    100,
     window.innerWidth / window.innerHeight,
     0.01,
-    1000
-  );
-  camera.position.set(0, 0.02, 0);
-  camera.position.z = 1;
-  var light = new THREE.DirectionalLight(0xffffff, 5);
+    100
+  ); 
+  camera.position.set(0, 1, 2);
+  var point = new THREE.PointLight(0xffffff);
   var ambient = new THREE.AmbientLight(0x404040);
   curScene.add(ambient);
-  curScene.add(light);
+  point.position.set(0,2,0)
+  curScene.add(point)
+
+
+  // Circulating Sphere
+  var sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(0.1, 64, 64), 
+    //new THREE.BasicMaterial({color: 0xff0000})
+    new THREE.MeshPhysicalMaterial({map: new THREE.TextureLoader().load(`./img/moon.jpg`)
+  })
+
+  );
+  sphere.recieveShadow = true;
+  sphere.castShadow = true;
+  sphere.position.set(0.5,2,0);
+  curScene.add(sphere);
+
+  // Pivot Sphere (NIET VERWIJDEREN, HEEFT EEN FUNCTIEE)
+  var sphere2 = new THREE.Mesh(
+    new THREE.SphereGeometry(0.2, 64, 64), 
+    //new THREE.BasicMaterial({color: 0xff0000})
+    new THREE.MeshPhysicalMaterial({map: new THREE.TextureLoader().load(`./img/earth.jpg`),
+    color: 0xff0000
+  })
+
+  );
+  sphere2.recieveShadow = true;
+  sphere2.castShadow = true;
+  sphere2.position.set(0,-1,0);
+  curScene.add(sphere2);
+
+  //Create Pivotpoint
+	pivotPoint = new THREE.Object3D();
+	sphere2.add(pivotPoint);
+	pivotPoint.add(sphere);
+
   //matgine.instances.set("sun", light);
 
 
 
 
-
-
-  
 
   //create renderer
   renderer = new THREE.WebGLRenderer();
@@ -44,19 +82,16 @@ function init() {
   document.body.appendChild(renderer.domElement);
   window.addEventListener("keydown", keyDown);
   window.addEventListener("keyup", keyUp);
+  animate();
 }
 
 function animate() {
   var deltaTime = clock.getDelta();
-  if(matgine.instances.has("avocado")) // dit is nodig want anders probeert hij het te doen voordat het object is ingeladen!
-  {
-    matgine.instances.get("avocado").rotation.y += 0.1;
-  }
-
 
   UpdateCamera(deltaTime);
   renderer.render(curScene, camera);
   requestAnimationFrame(animate);
+  render();
 }
 async function loadModels() {
   //put all the models to be loaded in this function to keep it clean.
@@ -65,7 +100,6 @@ async function loadModels() {
 function UpdateCamera(deltaTime) {
   if (keyboard[87]) {
     // W key
-
     camera.position.x -= Math.sin(camera.rotation.y) * speed * deltaTime;
     camera.position.z -= Math.cos(camera.rotation.y) * speed * deltaTime;
   }
@@ -111,7 +145,11 @@ function UpdateCamera(deltaTime) {
 function keyDown(event) {
   keyboard[event.keyCode] = true;
 }
-
 function keyUp(event) {
   keyboard[event.keyCode] = false;
+}
+
+function render () 
+{
+	pivotPoint.rotation.y += 0.005;
 }

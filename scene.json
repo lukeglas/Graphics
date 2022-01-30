@@ -7,12 +7,93 @@
       {
         "path": "/models/wolverine_work_boot/scene.gltf",
         "name": "boot"
+      },
+      {
+        "path": "/models/table.glb",
+        "name": "table"
+      },
+      {
+        "path": "/models/chair.glb",
+        "name": "chair"
+      },
+      {
+        "path": "/models/fruit_bowl.gltf",
+        "name": "fruit_bowl"
+      },
+      {
+        "path": "/models/shiba/scene.gltf",
+        "name": "shiba"
+      },
+      {
+        "path": "/models/moon.glb",
+        "name": "moon"
+      },
+      {
+        "path": "/models/earth.glb",
+        "name": "earth"
       }
     ],
     "Scene": [
       {
-        "name": "avocado",
-        "model": "avocado",
+        "name": "earth",
+        "model": "earth",
+        "position": {
+          "x": -0.05,
+          "y": 1.14,
+          "z": -0.1
+        },
+        "rotation": { 
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 0.3,
+          "y": 0.3,
+          "z": 0.3
+        }
+      },
+      {
+        "name": "shiba",
+        "model": "shiba",
+        "position": {
+          "x": 0.27,
+          "y": 0.95,
+          "z": 0
+        },
+        "rotation": { 
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 0.2,
+          "y": 0.2,
+          "z": 0.2
+        }
+      },
+      {
+        "name": "chair",
+        "model": "chair",
+        "position": {
+          "x": -1,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": { 
+          "x": 0,
+          "y": 1.57079633,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "table",
+        "model": "table",
         "position": {
           "x": 0,
           "y": 0,
@@ -33,9 +114,9 @@
         "name": "boot",
         "model": "boot",
         "position": {
-          "x": 0.3,
+          "x": -0.4,
           "y": 0,
-          "z": 0
+          "z": -0.19
         },
         "rotation": {
           "x": 0,
@@ -43,16 +124,16 @@
           "z": 0
         },
         "scale": {
-          "x": 0.2,
-          "y": 0.2,
-          "z": 0.2
+          "x": 1,
+          "y": 1,
+          "z": 1
         }
       },
       {
         "name": "boot1",
         "model": "boot",
         "position": {
-          "x": 0.3,
+          "x": -0.4,
           "y": 0,
           "z": 0.045
         },
@@ -62,9 +143,9 @@
           "z": 0
         },
         "scale": {
-          "x": 0.2,
-          "y": 0.2,
-          "z": -0.2
+          "x": 1,
+          "y": 1,
+          "z": -1
         }
       }
     ]

@@ -5,7 +5,7 @@ var renderer;
 var clock;
 var cubes = [];
 var keyboard = {};
-var speed = 0.2;
+var speed = 0.5;
 var scene, camera, renderer, sphere, sphere2, sphereCamera;
 var floor, ambientLight, light, stats, light2;
 var sphereGeometry1, sphereMaterial1, sphereMesh1;
@@ -75,7 +75,7 @@ function init() {
 
   //create planes
 	floor = new THREE.Mesh(
-		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.PlaneGeometry(5,5,5,5),
 		new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './img/floor.jpg' ), side:THREE.DoubleSide})
 		//new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
 	);
@@ -86,56 +86,56 @@ function init() {
 
   // Ceiling
 	const ceiling = new THREE.Mesh(
-		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.PlaneGeometry(5,5,5,5),
 		new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader().load( './img/ceiling.jpg' ), side:THREE.DoubleSide})
 	);
 	ceiling.rotation.x -= Math.PI / 2; 
-	ceiling.position.y = 10
+	ceiling.position.y = 5
 	ceiling.receiveShadow = true;
 	curScene.add(ceiling);
 
 
   // Backwall
 	const leftwall = new THREE.Mesh(
-		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.PlaneGeometry(5,5,5,5),
 		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
 	);
 	leftwall.rotation.x -= Math.PI; 
-	leftwall.position.z = 10
-	leftwall.position.y = 10
+	leftwall.position.z = 2.5
+	leftwall.position.y = 2.5
 	leftwall.receiveShadow = true;
 	curScene.add(leftwall);
 	
   // Rightwall
 	const rightwall = new THREE.Mesh(
-		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.PlaneGeometry(5,5,5,5),
 		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
 	);
 	rightwall.rotation.y -= Math.PI/2; 
-	rightwall.position.x = 10
-	rightwall.position.y = 10
+	rightwall.position.x = 2.5
+	rightwall.position.y = 2.5
 	rightwall.receiveShadow = true;
 	curScene.add(rightwall);
 
   // CenterWall
 	const centerwall = new THREE.Mesh(
-		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.PlaneGeometry(5,5,5,5),
 		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
 	);
 	centerwall.rotation.z -= Math.PI/2; 
-	centerwall.position.z = -10
-	centerwall.position.y = 10
+	centerwall.position.z = -2.5
+	centerwall.position.y = 2.5
 	centerwall.receiveShadow = true;
 	curScene.add(centerwall);
 
   //LeftWall
 	const windowwall = new THREE.Mesh(
-		new THREE.PlaneGeometry(20,20, 10,10),
+		new THREE.PlaneGeometry(5,5,5,5),
 		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
 	);
 	windowwall.rotation.y -= Math.PI/2; 
-	windowwall.position.x = -10
-	windowwall.position.y = 10
+	windowwall.position.x = -2.5
+	windowwall.position.y = 2.5
 	windowwall.receiveShadow = true;
 	curScene.add(windowwall);
 
@@ -165,7 +165,6 @@ async function loadModels() {
 function UpdateCamera(deltaTime) {
   if (keyboard[87]) {
     // W key
-
     camera.position.x -= Math.sin(camera.rotation.y) * speed * deltaTime;
     camera.position.z -= Math.cos(camera.rotation.y) * speed * deltaTime;
   }

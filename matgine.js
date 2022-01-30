@@ -18,6 +18,11 @@ export async function LoadModel(path, name) {
     path,
     function (gltf) {
       console.log(gltf.scene);
+      
+      gltf.scene.traverse( function( node ) {
+        if ( node instanceof THREE.Mesh ) { node.castShadow = true;}
+      } );
+
       models.set(name, gltf);
       console.log("Set " + name + " to " + models.has(name));
       prom = true;
@@ -51,6 +56,7 @@ export function InstantiateModel(scene, name) {
   if (models.has(name)) {
     var geo = models.get(name);
     var nModel = geo.scene.clone();
+    nModel.castShadow = true;
     scene.add(nModel);
     return nModel;
   } else {

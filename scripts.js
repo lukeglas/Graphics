@@ -19,6 +19,9 @@ function init() {
   clock = new THREE.Clock();
   clock.start();
   matgine.LoadScene("scene.json", "start");
+
+
+
   curScene = matgine.GetScene("start");
   //create camera
   camera = new THREE.PerspectiveCamera(
@@ -28,24 +31,24 @@ function init() {
     100
   ); 
   camera.position.set(0, 1, 2);
-  var light = new THREE.DirectionalLight(0xffffff, 5);
+  var point = new THREE.PointLight(0xffffff);
   var ambient = new THREE.AmbientLight(0x404040);
   curScene.add(ambient);
-  curScene.add(light);
+  point.position.set(0,2,0)
+  curScene.add(point)
 
 
   // Circulating Sphere
   var sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(1, 64, 64), 
+    new THREE.SphereGeometry(0.1, 64, 64), 
     //new THREE.BasicMaterial({color: 0xff0000})
-    new THREE.MeshPhysicalMaterial({map: new THREE.TextureLoader().load(`./img/earth.jpg`),
-    color: 0x00ff00
+    new THREE.MeshPhysicalMaterial({map: new THREE.TextureLoader().load(`./img/moon.jpg`)
   })
 
   );
   sphere.recieveShadow = true;
   sphere.castShadow = true;
-  sphere.position.set(7,2,0);
+  sphere.position.set(0.5,2,0);
   curScene.add(sphere);
 
   // Pivot Sphere (NIET VERWIJDEREN, HEEFT EEN FUNCTIEE)
@@ -149,11 +152,6 @@ function init() {
 
 function animate() {
   var deltaTime = clock.getDelta();
-  if(matgine.instances.has("avocado")) // dit is nodig want anders probeert hij het te doen voordat het object is ingeladen!
-  {
-    matgine.instances.get("avocado").rotation.y += 0.1;
-  }
-
 
   UpdateCamera(deltaTime);
   renderer.render(curScene, camera);
@@ -219,5 +217,5 @@ function keyUp(event) {
 
 function render () 
 {
-	pivotPoint.rotation.y += 0.05;
+	pivotPoint.rotation.y += 0.005;
 }

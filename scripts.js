@@ -165,12 +165,13 @@ const rightwallright = new THREE.Mesh(
 	let loader = new THREE.CubeTextureLoader();
 
 	let texture = loader.load([
-	'./field-skyboxes/Footballfield/negz.jpg',
-	'./field-skyboxes/Footballfield/posz.jpg',
+    './field-skyboxes/Footballfield/posx.jpg',
+	'./field-skyboxes/Footballfield/negx.jpg',
 	'./field-skyboxes/Footballfield/posy.jpg',
 	'./field-skyboxes/Footballfield/negy.jpg',
-	'./field-skyboxes/Footballfield/posx.jpg',
-	'./field-skyboxes/Footballfield/negx.jpg'
+	'./field-skyboxes/Footballfield/posz.jpg',
+  './field-skyboxes/Footballfield/negz.jpg'
+	
 	]);
 	
 	  curScene.background = texture;

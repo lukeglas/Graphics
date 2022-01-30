@@ -32,7 +32,7 @@ function init() {
   var point = new THREE.PointLight(0xffffff);
   var ambient = new THREE.AmbientLight(0x404040);
   curScene.add(ambient);
-  point.position.set(0,2,0)
+  point.position.set(0,3.5,0.2)
   curScene.add(point)
 //create planes
   floor = new THREE.Mesh(
@@ -57,7 +57,7 @@ function init() {
   // CenterWall
 	const centerwall = new THREE.Mesh(
 		new THREE.PlaneGeometry(5,5,5,5),
-		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+		new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load( './img/wall.jpg' ), side:THREE.DoubleSide})
 	);
 	centerwall.rotation.z -= Math.PI/2; 
 	centerwall.position.z = -2.5
@@ -66,29 +66,62 @@ function init() {
   //LeftWall
 	const windowwall = new THREE.Mesh(
 		new THREE.PlaneGeometry(5,5,5,5),
-		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+		new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load( './img/wall.jpg' ), side:THREE.DoubleSide})
 	);
 	windowwall.rotation.y -= Math.PI/2; 
 	windowwall.position.x = -2.5
 	windowwall.position.y = 2.5
 	windowwall.receiveShadow = true;
   //RightWall
-  const rightwall = new THREE.Mesh(
-		new THREE.PlaneGeometry(5,5,5,5),
-		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+  const rightwalltop = new THREE.Mesh(
+		new THREE.PlaneGeometry(5,1.3,5,5),
+		new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load( './img/wall.jpg' ), side:THREE.DoubleSide})
 	);
-	rightwall.rotation.y -= Math.PI/2; 
-	rightwall.position.x = 2.5
-	rightwall.position.y = 2.5
-	rightwall.receiveShadow = true;
+	rightwalltop.rotation.y -= Math.PI/2; 
+	rightwalltop.position.x = 2.5
+	rightwalltop.position.y = 4.4
+	rightwalltop.receiveShadow = true;
+
+  const rightwallbottom = new THREE.Mesh(
+		new THREE.PlaneGeometry(5,1.7,5,5),
+		new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load( './img/wall.jpg' ), side:THREE.DoubleSide})
+	);
+	rightwallbottom.rotation.y -= Math.PI/2; 
+	rightwallbottom.position.x = 2.5
+	rightwallbottom.position.y = 0.83
+	rightwallbottom.receiveShadow = true;
+
+const rightwallright = new THREE.Mesh(
+		new THREE.PlaneGeometry(1.4,4,5,5),
+		new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load( './img/wall.jpg' ), side:THREE.DoubleSide})
+	);
+	rightwallright.rotation.y -= Math.PI/2; 
+	rightwallright.position.x = 2.5
+	rightwallright.position.y = 2
+  rightwallright.position.z = 1.8
+	rightwallright.receiveShadow = true;
+
+  const rightwallleft = new THREE.Mesh(
+		new THREE.PlaneGeometry(1.55,4,5,5),
+		new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load( './img/wall.jpg' ), side:THREE.DoubleSide})
+	);
+	rightwallleft.rotation.y -= Math.PI/2; 
+	rightwallleft.position.x = 2.5
+	rightwallleft.position.y = 2
+  rightwallleft.position.z = -1.76
+	rightwallleft.receiveShadow = true;
+
   curScene.add(windowwall);
-	curScene.add(rightwall);
+	curScene.add(rightwalltop);
+  curScene.add(rightwallbottom);
+  curScene.add(rightwallright);
+  curScene.add(rightwallleft);
   curScene.add(centerwall);
   curScene.add(ceiling);
   // Backwall
   const Backwall = new THREE.Mesh(
     new THREE.PlaneGeometry(5,5,5,5),
-    new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+    new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load( './img/wall.jpg' ), side:THREE.DoubleSide})
   );
   Backwall.rotation.x -= Math.PI; 
   Backwall.position.z = 2.5
@@ -127,6 +160,20 @@ function init() {
 	pivotPoint = new THREE.Object3D();
 	sphere2.add(pivotPoint);
 	pivotPoint.add(sphere);
+
+  	//add skybox
+	let loader = new THREE.CubeTextureLoader();
+
+	let texture = loader.load([
+	'./field-skyboxes/Footballfield/negz.jpg',
+	'./field-skyboxes/Footballfield/posz.jpg',
+	'./field-skyboxes/Footballfield/posy.jpg',
+	'./field-skyboxes/Footballfield/negy.jpg',
+	'./field-skyboxes/Footballfield/posx.jpg',
+	'./field-skyboxes/Footballfield/negx.jpg'
+	]);
+	
+	  curScene.background = texture;
 
   //create renderer
   renderer = new THREE.WebGLRenderer();

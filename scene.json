@@ -17,16 +17,8 @@
         "name": "chair"
       },
       {
-        "path": "/models/fruit_bowl.gltf",
-        "name": "fruit_bowl"
-      },
-      {
         "path": "/models/shiba/scene.gltf",
         "name": "shiba"
-      },
-      {
-        "path": "/models/moon.glb",
-        "name": "moon"
       },
       {
         "path": "/models/earth.glb",

@@ -20,8 +20,6 @@ function init() {
   clock.start();
   matgine.LoadScene("scene.json", "start");
 
-
-
   curScene = matgine.GetScene("start");
   //create camera
   camera = new THREE.PerspectiveCamera(
@@ -36,7 +34,67 @@ function init() {
   curScene.add(ambient);
   point.position.set(0,2,0)
   curScene.add(point)
+//create planes
+  floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(5,5,5,5),
+    new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './img/floor.jpg' ), side:THREE.DoubleSide})
+    //new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+  );
+  floor.rotation.x -= Math.PI / 2; 
+  floor.position.y = 0
+  floor.receiveShadow = true;
+  curScene.add(floor);
+  // Ceiling
+  const ceiling = new THREE.Mesh(
+    new THREE.PlaneGeometry(5,5,5,5),
+    new THREE.MeshBasicMaterial( {map: new THREE.TextureLoader().load( './img/ceiling.jpg' ), side:THREE.DoubleSide})
+  );
+  ceiling.rotation.x -= Math.PI / 2; 
+  ceiling.position.y = 5
+  ceiling.receiveShadow = true;
 
+
+  // CenterWall
+	const centerwall = new THREE.Mesh(
+		new THREE.PlaneGeometry(5,5,5,5),
+		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	centerwall.rotation.z -= Math.PI/2; 
+	centerwall.position.z = -2.5
+	centerwall.position.y = 2.5
+	centerwall.receiveShadow = true;
+  //LeftWall
+	const windowwall = new THREE.Mesh(
+		new THREE.PlaneGeometry(5,5,5,5),
+		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	windowwall.rotation.y -= Math.PI/2; 
+	windowwall.position.x = -2.5
+	windowwall.position.y = 2.5
+	windowwall.receiveShadow = true;
+  //RightWall
+  const rightwall = new THREE.Mesh(
+		new THREE.PlaneGeometry(5,5,5,5),
+		new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+	);
+	rightwall.rotation.y -= Math.PI/2; 
+	rightwall.position.x = 2.5
+	rightwall.position.y = 2.5
+	rightwall.receiveShadow = true;
+  curScene.add(windowwall);
+	curScene.add(rightwall);
+  curScene.add(centerwall);
+  curScene.add(ceiling);
+  // Backwall
+  const Backwall = new THREE.Mesh(
+    new THREE.PlaneGeometry(5,5,5,5),
+    new THREE.MeshPhongMaterial({color:0xffffff, side:THREE.DoubleSide})
+  );
+  Backwall.rotation.x -= Math.PI; 
+  Backwall.position.z = 2.5
+  Backwall.position.y = 2.5
+  Backwall.receiveShadow = true;
+  curScene.add(Backwall);
 
   // Circulating Sphere
   var sphere = new THREE.Mesh(
@@ -70,12 +128,6 @@ function init() {
 	sphere2.add(pivotPoint);
 	pivotPoint.add(sphere);
 
-  //matgine.instances.set("sun", light);
-
-
-
-
-
   //create renderer
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -85,6 +137,10 @@ function init() {
   animate();
 }
 
+
+
+
+
 function animate() {
   var deltaTime = clock.getDelta();
 
@@ -92,9 +148,6 @@ function animate() {
   renderer.render(curScene, camera);
   requestAnimationFrame(animate);
   render();
-}
-async function loadModels() {
-  //put all the models to be loaded in this function to keep it clean.
 }
 
 function UpdateCamera(deltaTime) {

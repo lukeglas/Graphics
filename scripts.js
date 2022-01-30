@@ -1,4 +1,6 @@
 import * as matgine from "./matgine.js";
+//import { Reflector } from "./Reflector.js";
+
 var curScene;
 var camera;
 var renderer;
@@ -121,7 +123,7 @@ function init() {
   sphere2.recieveShadow = true;
   sphere2.castShadow = true;
   sphere2.position.set(0,-1,0);
-  curScene.add(sphere2);
+  curScene.add(sphere2); 
 
   //Create Pivotpoint
 	pivotPoint = new THREE.Object3D();
@@ -143,10 +145,7 @@ function init() {
 
 function animate() {
   var deltaTime = clock.getDelta();
-
   UpdateCamera(deltaTime);
-  renderer.render(curScene, camera);
-  requestAnimationFrame(animate);
   render();
 }
 
@@ -205,4 +204,7 @@ function keyUp(event) {
 function render () 
 {
 	pivotPoint.rotation.y += 0.005;
+  renderer.render(curScene, camera);
+  requestAnimationFrame(animate);
+  
 }
